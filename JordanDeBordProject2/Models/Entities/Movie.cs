@@ -16,7 +16,7 @@ namespace JordanDeBordProject2.Models.Entities
         public string Title { get; set; }
 
         [Required]
-        [Range(1832, )]
+        [Range(1832, 2031)]
         public int Year { get; set; }
 
         public int LengthInMinutes { get; set; }
