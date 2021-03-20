@@ -13,5 +13,8 @@ namespace JordanDeBordProject2.Models.Entities
         [Required]
         [MaxLength(20)]
         public string Name { get; set; }
+
+        public ICollection<MovieGenre> GenreMovies { get; set; }
+            = new List<MovieGenre>();
     }
 }

@@ -1,5 +1,6 @@
 using JordanDeBordProject2.Data;
 using JordanDeBordProject2.Models.Entities;
+using JordanDeBordProject2.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,8 +35,13 @@ namespace JordanDeBordProject2
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddScoped<IApplicationUserRepository, DbApplicationUserRepository>();
+            services.AddScoped<Initializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

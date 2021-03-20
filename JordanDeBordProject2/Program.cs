@@ -1,5 +1,7 @@
+using JordanDeBordProject2.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,9 +13,11 @@ namespace JordanDeBordProject2
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            await SeedDataAsync(host);
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,5 +26,21 @@ namespace JordanDeBordProject2
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        public static async Task SeedDataAsync(IHost host)
+        {
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                var initializer = services.GetRequiredService<Initializer>();
+                await initializer.SeedUsersAsync();
+            }
+            catch (Exception)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError("An error occurred while seeding the database.");
+            }
+        }
     }
 }

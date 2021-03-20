@@ -16,13 +16,20 @@ namespace JordanDeBordProject2.Models.Entities
         public string Title { get; set; }
 
         [Required]
-        [Range(1832, 2031)]
         public int Year { get; set; }
 
         public int LengthInMinutes { get; set; }
 
+        [Required]
         public double Price { get; set; }
 
+        [Required]
         public string IMDB_URL { get; set; }
+
+        public ICollection<MovieGenre> MovieGenres { get; set; }
+            = new List<MovieGenre>();
+
+        public ICollection<PaidMovie> PaidMovies { get; set; }
+            = new List<PaidMovie>();
     }
 }
