@@ -1,16 +1,10 @@
 ﻿@*
     Partial View to show additional NavBar items for logged in non-admin user.
 *@
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
-@if (SignInManager.IsSignedIn(User))
+@if (User.IsInRole("Movie Connoisseur"))
 {
-    if (User.IsInRole("Movie Connoisseur"))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Details">View Profile</a>
-        </li>
-    }
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Details">View Profile</a>
+    </li>
 }

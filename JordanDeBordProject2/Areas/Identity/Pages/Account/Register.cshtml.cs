@@ -53,10 +53,12 @@ namespace JordanDeBordProject2.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "First Name")]
+            [MaxLength(50)]
             public string FirstName { get; set; }
 
             [Required]
             [Display(Name = "Last Name")]
+            [MaxLength(50)]
             public string LastName { get; set; }
 
             [Required]
@@ -94,6 +96,7 @@ namespace JordanDeBordProject2.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    await _userManager.AddToRoleAsync(user, "Movie Connoisseur");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -115,6 +118,7 @@ namespace JordanDeBordProject2.Areas.Identity.Pages.Account
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
+                    
                 }
                 foreach (var error in result.Errors)
                 {

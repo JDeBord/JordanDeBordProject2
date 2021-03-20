@@ -41,6 +41,9 @@ namespace JordanDeBordProject2
             services.AddControllersWithViews();
 
             services.AddScoped<IApplicationUserRepository, DbApplicationUserRepository>();
+            services.AddScoped<IProfileRepository, DbProfileRepository>();
+            services.AddScoped<IMovieRepository, DbMovieRepository>();
+            services.AddScoped<IGenreRepository, DbGenreRepository>();
             services.AddScoped<Initializer>();
         }
 

@@ -20,6 +20,19 @@ namespace JordanDeBordProject2.Services
             throw new NotImplementedException();
         }
 
+        public async Task<bool> CheckProfile(string userId)
+        {
+            await foreach (var profile in _database.Profiles)
+            {
+                if (profile.ApplicationUserId == userId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public Task<Profile> CreateAsyc(Profile profile)
         {
             throw new NotImplementedException();

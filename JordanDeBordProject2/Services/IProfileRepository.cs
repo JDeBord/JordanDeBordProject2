@@ -19,5 +19,7 @@ namespace JordanDeBordProject2.Services
         Task DeleteAsync(int id);
 
         Task AddPurchasedMovie(int profileId, int movieId);
+
+        Task<bool> CheckProfile(string userId);
     }
 }
