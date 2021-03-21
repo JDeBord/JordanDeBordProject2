@@ -38,7 +38,7 @@ namespace JordanDeBordProject2.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(int profileId)
         {
             throw new NotImplementedException();
         }
@@ -48,7 +48,7 @@ namespace JordanDeBordProject2.Services
             throw new NotImplementedException();
         }
 
-        public Task<Profile> ReadAsync(int id)
+        public Task<Profile> ReadAsync(int profileId)
         {
             throw new NotImplementedException();
         }

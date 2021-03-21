@@ -8,7 +8,7 @@ namespace JordanDeBordProject2.Services
 {
     public interface IProfileRepository
     {
-        Task<Profile> ReadAsync(int id);
+        Task<Profile> ReadAsync(int profileId);
 
         Task<ICollection<Profile>> ReadAllAsync();
 
@@ -16,7 +16,7 @@ namespace JordanDeBordProject2.Services
 
         Task TaskUpdateAsyc(Profile profile);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(int profileId);
 
         Task AddPurchasedMovie(int profileId, int movieId);
 

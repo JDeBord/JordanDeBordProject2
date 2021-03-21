@@ -20,7 +20,7 @@ namespace JordanDeBordProject2.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(int GenreId)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace JordanDeBordProject2.Services
             throw new NotImplementedException();
         }
 
-        public Task<Genre> ReadAsync(int id)
+        public Task<Genre> ReadAsync(int GenreId)
         {
             throw new NotImplementedException();
         }

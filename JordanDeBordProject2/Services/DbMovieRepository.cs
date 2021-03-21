@@ -1,4 +1,5 @@
 ﻿using JordanDeBordProject2.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,34 +16,70 @@ namespace JordanDeBordProject2.Services
             _database = database;
         }
 
-        public Task AddGenreAsync(int movieId, int genreId)
+        public async Task AddGenreAsync(int movieId, int genreId)
         {
-            throw new NotImplementedException();
+            var movie = await ReadAsync(movieId);
+            var genre = await ReadGenreAsync(genreId);
+
+            if (movie != null && genre != null)
+            {
+                movie.MovieGenres.Add(genre);
+                genre.GenreMovies.Add(movie);
+            }
         }
 
-        public Task<Movie> CreateAsyc(Movie movie)
+        public async Task<Movie> CreateAsyc(Movie movie)
         {
-            throw new NotImplementedException();
+            await _database.Movies.AddAsync(movie);
+            _database.SaveChanges();
+            return movie;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int movieId)
         {
-            throw new NotImplementedException();
+            var movieToDelete = await ReadAsync(movieId);
+            _database.Movies.Remove(movieToDelete);
+            await _database.SaveChangesAsync();
+
         }
 
-        public Task<ICollection<Movie>> ReadAllAsync()
+        public async Task<ICollection<Movie>> ReadAllAsync()
         {
-            throw new NotImplementedException();
+            var movies = await _database.Movies
+                .Include(mg => mg.MovieGenres)
+                .ThenInclude(g => g.Genre)
+                .ToList();
+
+            return movies;
         }
 
-        public Task<Movie> ReadAsync(int id)
+        public async Task<Movie> ReadAsync(int movieId)
         {
-            throw new NotImplementedException();
+            var movie = await _database.Movies
+                .Include(mg => mg.MovieGenres)
+                .ThenInclude(g => g.Genre)
+                .FirstOrDefaultAsync(movie => movie.Id == movieId);
+
+            return movie;
         }
 
-        public Task TaskUpdateAsyc(Movie movie)
+        public async Task UpdateAsyc(Movie movie)
         {
-            throw new NotImplementedException();
+            var movieToUpdate = await ReadAsync(movie.Id);
+
+            movieToUpdate.Title = movie.Title;
+            movieToUpdate.Year = movie.Year;
+            movieToUpdate.Price = movie.Price;
+            movieToUpdate.IMDB_URL = movie.IMDB_URL;
+
+            await _database.SaveChangesAsync();
+        }
+        public async Task<Genre> ReadGenreAsync(int genreId)
+        {
+            var genre = await _database.Genres
+                .FirstOrDefaultAsync(genre => genre.Id == genreId);
+
+            return genre;
         }
     }
 }

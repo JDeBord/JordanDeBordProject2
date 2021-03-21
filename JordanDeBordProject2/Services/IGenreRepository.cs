@@ -8,7 +8,7 @@ namespace JordanDeBordProject2.Services
 {
     public interface IGenreRepository
     {
-        Task<Genre> ReadAsync(int id);
+        Task<Genre> ReadAsync(int genreId);
 
         Task<ICollection<Genre>> ReadAllAsync();
 
@@ -16,6 +16,6 @@ namespace JordanDeBordProject2.Services
 
         Task TaskUpdateAsyc(Genre genre);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(int genreId);
     }
 }
