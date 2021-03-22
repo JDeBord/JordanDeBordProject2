@@ -16,22 +16,25 @@ namespace JordanDeBordProject2.Services
             _database = database;
         }
 
-        public async Task AddGenreAsync(int movieId, int genreId)
+        public async Task AddGenreAsync(int movieId, Genre genre)
         {
             var movie = await ReadAsync(movieId);
-            var genre = await ReadGenreAsync(genreId);
 
-            if (movie != null && genre != null)
+            var movieGenre = new MovieGenre
             {
-                movie.MovieGenres.Add(genre);
-                genre.GenreMovies.Add(movie);
-            }
+                Movie = movie,
+                Genre = genre
+            };
+            movie.MovieGenres.Add(movieGenre);
+            genre.GenreMovies.Add(movieGenre);
+
+            await _database.SaveChangesAsync();
         }
 
         public async Task<Movie> CreateAsyc(Movie movie)
         {
             await _database.Movies.AddAsync(movie);
-            _database.SaveChanges();
+            await _database.SaveChangesAsync();
             return movie;
         }
 
@@ -43,12 +46,12 @@ namespace JordanDeBordProject2.Services
 
         }
 
-        public async Task<ICollection<Movie>> ReadAllAsync()
+        public ICollection<Movie> ReadAllAsync()
         {
-            var movies = await _database.Movies
-                .Include(mg => mg.MovieGenres)
-                .ThenInclude(g => g.Genre)
-                .ToList();
+            var movies = _database.Movies
+                            .Include(mg => mg.MovieGenres)
+                            .ThenInclude(g => g.Genre)
+                            .ToList();
 
             return movies;
         }
@@ -63,6 +66,13 @@ namespace JordanDeBordProject2.Services
             return movie;
         }
 
+        public async Task<Movie> ReadByNameAsync(string movieTitle)
+        {
+            var movie = await _database.Movies.FirstOrDefaultAsync(m => m.Title == movieTitle);
+
+            return movie;
+        }
+
         public async Task UpdateAsyc(Movie movie)
         {
             var movieToUpdate = await ReadAsync(movie.Id);
@@ -73,13 +83,6 @@ namespace JordanDeBordProject2.Services
             movieToUpdate.IMDB_URL = movie.IMDB_URL;
 
             await _database.SaveChangesAsync();
-        }
-        public async Task<Genre> ReadGenreAsync(int genreId)
-        {
-            var genre = await _database.Genres
-                .FirstOrDefaultAsync(genre => genre.Id == genreId);
-
-            return genre;
         }
     }
 }

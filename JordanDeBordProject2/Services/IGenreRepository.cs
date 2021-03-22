@@ -10,7 +10,9 @@ namespace JordanDeBordProject2.Services
     {
         Task<Genre> ReadAsync(int genreId);
 
-        Task<ICollection<Genre>> ReadAllAsync();
+        Task<Genre> ReadByNameAsync(string genreName);
+
+        ICollection<Genre> ReadAllAsync();
 
         Task<Genre> CreateAsyc(Genre genre);
 

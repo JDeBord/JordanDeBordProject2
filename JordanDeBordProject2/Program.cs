@@ -35,6 +35,9 @@ namespace JordanDeBordProject2
             {
                 var initializer = services.GetRequiredService<Initializer>();
                 await initializer.SeedUsersAsync();
+                await initializer.SeedGenresAsync();
+                await initializer.SeedMoviesAsync();
+                await initializer.SeedMovieGenresAsync();
             }
             catch (Exception)
             {

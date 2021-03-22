@@ -9,8 +9,10 @@ namespace JordanDeBordProject2.Services
     public interface IMovieRepository
     {
         Task<Movie> ReadAsync(int movieId);
+
+        Task<Movie> ReadByNameAsync(string movieTitle);
         
-        Task<ICollection<Movie>> ReadAllAsync();
+        ICollection<Movie> ReadAllAsync();
 
         Task<Movie> CreateAsyc(Movie movie);
         
@@ -18,6 +20,6 @@ namespace JordanDeBordProject2.Services
         
         Task DeleteAsync(int movieId);
 
-        Task AddGenreAsync(int movieId, int genreId);
+        Task AddGenreAsync(int movieId, Genre genre);
     }
 }

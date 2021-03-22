@@ -1,4 +1,5 @@
 ﻿using JordanDeBordProject2.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,29 +16,48 @@ namespace JordanDeBordProject2.Services
             _database = database;
         }
 
-        public Task<Genre> CreateAsyc(Genre genre)
+        public async Task<Genre> CreateAsyc(Genre genre)
         {
-            throw new NotImplementedException();
+            await _database.Genres.AddAsync(genre);
+            await _database.SaveChangesAsync();
+
+            return genre;
         }
 
-        public Task DeleteAsync(int GenreId)
+        public async Task DeleteAsync(int genreId)
         {
-            throw new NotImplementedException();
+            var genreToDelete = await ReadAsync(genreId);
+            _database.Remove(genreToDelete);
+
+            await _database.SaveChangesAsync();
         }
 
-        public Task<ICollection<Genre>> ReadAllAsync()
+        public ICollection<Genre> ReadAllAsync()
         {
-            throw new NotImplementedException();
+            return _database.Genres.ToList();
         }
 
-        public Task<Genre> ReadAsync(int GenreId)
+        public async Task<Genre> ReadAsync(int genreId)
         {
-            throw new NotImplementedException();
+            var genre = await _database.Genres.FirstOrDefaultAsync(g => g.Id == genreId);
+
+            return genre;
         }
 
-        public Task TaskUpdateAsyc(Genre genre)
+        public async Task<Genre> ReadByNameAsync(string genreName)
         {
-            throw new NotImplementedException();
+            var genre = await _database.Genres.FirstOrDefaultAsync(g => g.Name == genreName);
+
+            return genre;
+        }
+
+        public async Task TaskUpdateAsyc(Genre genre)
+        {
+            var genreToUpdate = await ReadAsync(genre.Id);
+
+            genreToUpdate.Name = genre.Name;
+
+            await _database.SaveChangesAsync();
         }
     }
 }

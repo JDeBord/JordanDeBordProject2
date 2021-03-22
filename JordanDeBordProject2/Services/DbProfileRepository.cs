@@ -1,4 +1,5 @@
 ﻿using JordanDeBordProject2.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,19 @@ namespace JordanDeBordProject2.Services
             _database = database;
         }
 
-        public Task AddPurchasedMovie(int profileId, int movieId)
+        public async Task AddPaidMovie(int profileId, Movie movie)
         {
-            throw new NotImplementedException();
+            var profile = await ReadAsync(profileId);
+            var paidMovie = new PaidMovie
+            {
+                Profile = profile,
+                Movie = movie
+            };
+
+            profile.PaidMovies.Add(paidMovie);
+            movie.PaidMovies.Add(paidMovie);
+
+            await _database.SaveChangesAsync();
         }
 
         public async Task<bool> CheckProfile(string userId)
@@ -33,29 +44,47 @@ namespace JordanDeBordProject2.Services
             return false;
         }
 
-        public Task<Profile> CreateAsyc(Profile profile)
+        public async Task<Profile> CreateAsyc(Profile profile)
         {
-            throw new NotImplementedException();
+            await _database.Profiles.AddAsync(profile);
+            await _database.SaveChangesAsync();
+
+            return profile;
         }
 
-        public Task DeleteAsync(int profileId)
+        public async Task DeleteAsync(int profileId)
         {
-            throw new NotImplementedException();
+            var profileToDelete = await ReadAsync(profileId);
+
+            _database.Profiles.Remove(profileToDelete);
+
+            await _database.SaveChangesAsync();
         }
 
-        public Task<ICollection<Profile>> ReadAllAsync()
+        public ICollection<Profile> ReadAllAsync()
         {
-            throw new NotImplementedException();
+            return _database.Profiles.ToList();
         }
 
-        public Task<Profile> ReadAsync(int profileId)
+        public async Task<Profile> ReadAsync(int profileId)
         {
-            throw new NotImplementedException();
+            var profile = await _database.Profiles.FirstOrDefaultAsync(p => p.Id == profileId);
+            return profile;
         }
 
-        public Task TaskUpdateAsyc(Profile profile)
+        public async Task TaskUpdateAsyc(Profile profile)
         {
-            throw new NotImplementedException();
+            var profileToUpdate = await ReadAsync(profile.Id);
+
+            profileToUpdate.CCNum = profile.CCNum;
+            profileToUpdate.CCExp = profile.CCExp;
+            profileToUpdate.AddLine1 = profile.AddLine1;
+            profileToUpdate.AddLine2 = profile.AddLine2;
+            profileToUpdate.City = profile.City;
+            profileToUpdate.State = profile.State;
+            profileToUpdate.ZIPCode = profile.ZIPCode;
+
+            await _database.SaveChangesAsync();
         }
     }
 }
