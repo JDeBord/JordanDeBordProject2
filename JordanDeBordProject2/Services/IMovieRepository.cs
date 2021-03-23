@@ -12,7 +12,7 @@ namespace JordanDeBordProject2.Services
 
         Task<Movie> ReadByNameAsync(string movieTitle);
         
-        ICollection<Movie> ReadAllAsync();
+        Task<ICollection<Movie>> ReadAllAsync();
 
         Task<Movie> CreateAsyc(Movie movie);
         

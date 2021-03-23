@@ -31,18 +31,7 @@ namespace JordanDeBordProject2.Services
             await _database.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckProfile(string userId)
-        {
-            await foreach (var profile in _database.Profiles)
-            {
-                if (profile.ApplicationUserId == userId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        
 
         public async Task<Profile> CreateAsyc(Profile profile)
         {
@@ -61,9 +50,9 @@ namespace JordanDeBordProject2.Services
             await _database.SaveChangesAsync();
         }
 
-        public ICollection<Profile> ReadAllAsync()
+        public async Task<ICollection<Profile>> ReadAllAsync()
         {
-            return _database.Profiles.ToList();
+            return await _database.Profiles.ToListAsync();
         }
 
         public async Task<Profile> ReadAsync(int profileId)

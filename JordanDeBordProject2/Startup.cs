@@ -1,4 +1,3 @@
-using JordanDeBordProject2.Data;
 using JordanDeBordProject2.Models.Entities;
 using JordanDeBordProject2.Services;
 using Microsoft.AspNetCore.Builder;

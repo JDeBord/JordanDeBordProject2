@@ -1,0 +1,69 @@
+﻿@model IEnumerable<JordanDeBordProject2.Models.ViewModels.DisplayMovieVM>
+
+
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CreateMovie">Create Movie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LengthInMinutes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IMDB_URL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genres)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LengthInMinutes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a href="@item.IMDB_URL">@item.IMDB_URL</a>)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genres)
+            </td>
+            <td>
+                <a asp-action="EditMovie" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="DeleteMovie" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

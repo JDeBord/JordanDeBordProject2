@@ -1,4 +1,5 @@
 ﻿using JordanDeBordProject2.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,11 @@ namespace JordanDeBordProject2.Services
         {
             _database = database;
         }
-        public ApplicationUser Read(string userName)
+        public async Task<ApplicationUser> ReadAsync(string userName)
         {
-            return _database.Users.FirstOrDefault(u => u.UserName == userName);
+            var user = await _database.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+
+            return user;
         }
     }
 }

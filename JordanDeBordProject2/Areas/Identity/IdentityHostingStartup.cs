@@ -1,5 +1,4 @@
 ﻿using System;
-using JordanDeBordProject2.Data;
 using JordanDeBordProject2.Models.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

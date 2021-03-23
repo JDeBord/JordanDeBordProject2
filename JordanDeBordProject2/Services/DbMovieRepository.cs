@@ -46,12 +46,12 @@ namespace JordanDeBordProject2.Services
 
         }
 
-        public ICollection<Movie> ReadAllAsync()
+        public async Task<ICollection<Movie>> ReadAllAsync()
         {
-            var movies = _database.Movies
-                            .Include(mg => mg.MovieGenres)
-                            .ThenInclude(g => g.Genre)
-                            .ToList();
+            var movies = await _database.Movies
+                                    .Include(mg => mg.MovieGenres)
+                                    .ThenInclude(g => g.Genre)
+                                    .ToListAsync();
 
             return movies;
         }

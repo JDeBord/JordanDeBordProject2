@@ -35,7 +35,7 @@ namespace JordanDeBordProject2.Models.Entities
         [Required]
         public string ApplicationUserId { get; set; }
 
-        [ForeignKey("ApplicationUserId")]
+        
         public ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<PaidMovie> PaidMovies { get; set; }

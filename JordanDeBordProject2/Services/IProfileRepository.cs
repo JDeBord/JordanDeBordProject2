@@ -10,7 +10,7 @@ namespace JordanDeBordProject2.Services
     {
         Task<Profile> ReadAsync(int profileId);
 
-        ICollection<Profile> ReadAllAsync();
+        Task<ICollection<Profile>> ReadAllAsync();
 
         Task<Profile> CreateAsyc(Profile profile);
 
@@ -19,7 +19,5 @@ namespace JordanDeBordProject2.Services
         Task DeleteAsync(int profileId);
 
         Task AddPaidMovie(int profileId, Movie movie);
-
-        Task<bool> CheckProfile(string userId);
     }
 }
