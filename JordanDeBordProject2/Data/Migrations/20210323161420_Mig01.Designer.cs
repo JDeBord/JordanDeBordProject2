@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JordanDeBordProject2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210322163331_Mig02")]
-    partial class Mig02
+    [Migration("20210323161420_Mig01")]
+    partial class Mig01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
