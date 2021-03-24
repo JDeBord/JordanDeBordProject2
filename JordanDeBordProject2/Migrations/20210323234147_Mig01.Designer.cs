@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JordanDeBordProject2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210323184527_Mig01")]
+    [Migration("20210323234147_Mig01")]
     partial class Mig01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,7 +124,7 @@ namespace JordanDeBordProject2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LengthInMinutes")
+                    b.Property<int?>("LengthInMinutes")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")

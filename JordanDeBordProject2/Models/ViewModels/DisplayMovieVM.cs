@@ -15,7 +15,7 @@ namespace JordanDeBordProject2.Models.ViewModels
         public int Year { get; set; }
 
         [Display(Name = "Length in Minutes")]
-        public int LengthInMinutes { get; set; }
+        public int? LengthInMinutes { get; set; }
 
         public string Price { get; set; }
 

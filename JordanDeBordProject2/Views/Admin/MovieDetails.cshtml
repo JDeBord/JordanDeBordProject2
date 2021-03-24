@@ -1,0 +1,63 @@
+﻿@model JordanDeBordProject2.Models.ViewModels.DisplayMovieVM
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LengthInMinutes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LengthInMinutes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IMDB_URL)
+        </dt>
+        <dd class = "col-sm-10">
+            <a href="@Model.IMDB_URL" target="_blank">@Model.IMDB_URL</a>
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Genres)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Genres)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditMovie" asp-route-id="@Model.Id">Edit Movie</a> |
+    <a asp-action="Index">Back to Admin Movie List</a>
+</div>
+<div>
+    <a asp-action="AddGenre" asp-route-id="@Model.Id">
+        Add Genre to Movie
+    </a> |
+    <a asp-action="RemoveGenre" asp-route-id="@Model.Id">
+        Remove Genre From Movie
+    </a>
+</div>

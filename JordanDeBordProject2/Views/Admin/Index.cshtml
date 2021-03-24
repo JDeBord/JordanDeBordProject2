@@ -53,14 +53,14 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a href="@item.IMDB_URL">@item.IMDB_URL</a>)
+                <a href="@item.IMDB_URL" target="_blank">@item.IMDB_URL</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Genres)
             </td>
             <td>
                 <a asp-action="EditMovie" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="MovieDetails" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="DeleteMovie" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

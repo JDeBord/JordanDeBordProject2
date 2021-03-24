@@ -79,6 +79,7 @@ namespace JordanDeBordProject2.Services
 
             movieToUpdate.Title = movie.Title;
             movieToUpdate.Year = movie.Year;
+            movieToUpdate.LengthInMinutes = movie.LengthInMinutes;
             movieToUpdate.Price = movie.Price;
             movieToUpdate.IMDB_URL = movie.IMDB_URL;
 

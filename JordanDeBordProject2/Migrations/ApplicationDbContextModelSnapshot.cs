@@ -122,7 +122,7 @@ namespace JordanDeBordProject2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LengthInMinutes")
+                    b.Property<int?>("LengthInMinutes")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")

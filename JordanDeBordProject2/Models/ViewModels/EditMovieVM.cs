@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Models.ViewModels
 {
-    public class CreateMovieVM
+    public class EditMovieVM
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public int Year { get; set; }
@@ -25,13 +27,13 @@ namespace JordanDeBordProject2.Models.ViewModels
         {
             return new Movie
             {
-                Id = 0,
+                Id = this.Id,
                 Title = this.Title,
                 Year = this.Year,
                 LengthInMinutes = this.LengthInMinutes,
                 Price = this.Price,
                 IMDB_URL = this.IMDB_URL
-            
+
             };
         }
     }

@@ -19,7 +19,7 @@ namespace JordanDeBordProject2.Models.Entities
         [Required]
         public int Year { get; set; }
 
-        public int LengthInMinutes { get; set; }
+        public int? LengthInMinutes { get; set; }
 
         [Required]
         public double Price { get; set; }
