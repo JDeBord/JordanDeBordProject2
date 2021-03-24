@@ -33,10 +33,18 @@ namespace JordanDeBordProject2.Services
 
         
 
-        public async Task<Profile> CreateAsyc(Profile profile)
+        public async Task<Profile> CreateAsyc(string ApplicationUserId, Profile profile)
         {
-            await _database.Profiles.AddAsync(profile);
-            await _database.SaveChangesAsync();
+            var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == ApplicationUserId);
+
+            if (user != null)
+            {
+                profile.ApplicationUser = user;
+                user.Profile = profile;
+                await _database.Profiles.AddAsync(profile);
+
+                await _database.SaveChangesAsync();
+            }
 
             return profile;
         }
@@ -74,6 +82,25 @@ namespace JordanDeBordProject2.Services
             profileToUpdate.ZIPCode = profile.ZIPCode;
 
             await _database.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckProfile(string applicationUserId) 
+        {
+            var profile = await ReadByUserAsync(applicationUserId);
+
+            if (profile == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<Profile> ReadByUserAsync(string applicationUserId) 
+        {
+            var profile = await _database.Profiles.FirstOrDefaultAsync(p => p.ApplicationUserId == applicationUserId);
+
+            return profile;
         }
     }
 }

@@ -12,12 +12,15 @@ namespace JordanDeBordProject2.Services
 
         Task<ICollection<Profile>> ReadAllAsync();
 
-        Task<Profile> CreateAsyc(Profile profile);
+        Task<Profile> CreateAsyc(string applicationUserId, Profile profile);
 
         Task TaskUpdateAsyc(Profile profile);
 
         Task DeleteAsync(int profileId);
 
         Task AddPaidMovie(int profileId, Movie movie);
+
+        Task<bool> CheckProfile(string applicationUserId);
+        Task<Profile> ReadByUserAsync(string applicationUserId);
     }
 }

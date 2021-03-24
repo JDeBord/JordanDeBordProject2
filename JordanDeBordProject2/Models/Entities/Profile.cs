@@ -54,5 +54,17 @@ namespace JordanDeBordProject2.Models.Entities
                 return sum;
             } 
         }
+
+        public string GetFormattedAddress()
+        {
+            if (AddLine2 == null)
+            {
+                return $"{AddLine1}, {City}, {State} {ZIPCode}";
+            }
+            else 
+            {
+                return $"{AddLine1}, {AddLine2}, {City}, {State} {ZIPCode}";
+            }
+        }
     }
 }

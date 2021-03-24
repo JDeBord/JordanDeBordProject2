@@ -1,0 +1,51 @@
+﻿@model JordanDeBordProject2.Models.ViewModels.DisplayProfileVM
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CCNum)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CCNum)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CCExp)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.CCExp)
+        </dd>
+        <dd class="col-sm-6">
+            @if (Model.CCExp < DateTime.Now.Date)
+            {
+                <div style="color:red">Card has expired!</div>
+            }
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AmountSpent)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AmountSpent)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit">Edit Profile</a> |
+    <a asp-action="Delete">Delete Profile</a> |
+    <a asp-action="Index" asp-controller="Movie">All Movies</a> |
+    <a asp-action="Index" asp-controller="Home">Watched Movies</a>
+</div>

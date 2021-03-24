@@ -21,5 +21,12 @@ namespace JordanDeBordProject2.Services
 
             return user;
         }
+
+        public async Task<ApplicationUser> ReadByIdAsync(string userId)
+        {
+            var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            return user;
+        }
     }
 }

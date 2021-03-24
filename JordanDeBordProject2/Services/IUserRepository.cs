@@ -9,5 +9,6 @@ namespace JordanDeBordProject2.Services
     public interface IUserRepository
     {
         Task<ApplicationUser> ReadAsync(string userName);
+        Task<ApplicationUser> ReadByIdAsync(string userId);
     }
 }
