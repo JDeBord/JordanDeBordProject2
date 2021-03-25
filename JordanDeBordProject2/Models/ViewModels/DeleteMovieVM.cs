@@ -11,6 +11,5 @@ namespace JordanDeBordProject2.Models.ViewModels
 
         public string Title { get; set; }
 
-
     }
 }

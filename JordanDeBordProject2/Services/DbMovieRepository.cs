@@ -18,17 +18,39 @@ namespace JordanDeBordProject2.Services
 
         public async Task AddGenreAsync(int movieId, Genre genre)
         {
+            // Get the movie to add the Genre too
             var movie = await ReadAsync(movieId);
 
-            var movieGenre = new MovieGenre
+            // If that movie does not already have the genre, add it. 
+            if (!(movie.MovieGenres.Any(mg => mg.Genre.Id == genre.Id)))
             {
-                Movie = movie,
-                Genre = genre
-            };
-            movie.MovieGenres.Add(movieGenre);
-            genre.GenreMovies.Add(movieGenre);
+                var movieGenre = new MovieGenre
+                {
+                    Movie = movie,
+                    Genre = genre
+                };
+                movie.MovieGenres.Add(movieGenre);
+                genre.GenreMovies.Add(movieGenre);
 
-            await _database.SaveChangesAsync();
+                await _database.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveGenreAsync(int movieId, Genre genre)
+        {
+            var movie = await ReadAsync(movieId);
+
+            // If the movie has the movie genre, remove it. 
+            if (movie.MovieGenres.Any(mg => mg.Genre.Id == genre.Id))
+            {
+                var movieGenre = await _database.MovieGenres
+                                    .FirstOrDefaultAsync(mg => mg.GenreId == genre.Id && mg.MovieId == movie.Id);
+                if (movieGenre != null)
+                {
+                    _database.MovieGenres.Remove(movieGenre);
+                    await _database.SaveChangesAsync();
+                }
+            }
         }
 
         public async Task<Movie> CreateAsyc(Movie movie)

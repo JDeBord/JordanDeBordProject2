@@ -32,9 +32,10 @@ namespace JordanDeBordProject2.Services
             await _database.SaveChangesAsync();
         }
 
-        public ICollection<Genre> ReadAllAsync()
+        public async Task<ICollection<Genre>> ReadAllAsync()
         {
-            return _database.Genres.ToList();
+            var genres = await _database.Genres.ToListAsync();
+            return genres;
         }
 
         public async Task<Genre> ReadAsync(int genreId)
