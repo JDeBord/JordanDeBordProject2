@@ -279,7 +279,33 @@ namespace JordanDeBordProject2.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return View();
+
+            var genres = movie.MovieGenres.ToList();
+            var model = new RemoveGenreVM
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genres = movie.GetGenres()
+            };
+
+            ViewData["Genres"] = genres;
+            ViewData["Title"] = $"Removing Genre from {movie.Title}";
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveGenre(RemoveGenreVM genreVM)
+        {
+            var movieId = genreVM.Id;
+            var genre = await _genreRepo.ReadAsync(genreVM.GenreIdToRemove);
+
+            if( genre == null)
+            {
+                return RedirectToAction("MovieDetails", new { id = movieId });
+            }
+
+            await _movieRepo.RemoveGenreAsync(movieId, genre);
+            return RedirectToAction("MovieDetails", new { id = movieId });
         }
     }
 }
