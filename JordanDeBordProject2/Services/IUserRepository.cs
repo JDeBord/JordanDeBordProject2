@@ -10,5 +10,7 @@ namespace JordanDeBordProject2.Services
     {
         Task<ApplicationUser> ReadAsync(string userName);
         Task<ApplicationUser> ReadByIdAsync(string userId);
+
+        Task UpdateAsync(ApplicationUser user);
     }
 }

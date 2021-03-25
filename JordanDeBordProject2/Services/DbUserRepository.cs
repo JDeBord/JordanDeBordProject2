@@ -28,5 +28,18 @@ namespace JordanDeBordProject2.Services
 
             return user;
         }
+
+        public async Task UpdateAsync(ApplicationUser user)
+        {
+            var userToUpdate = await ReadByIdAsync(user.Id);
+
+            if (userToUpdate != null)
+            {
+                userToUpdate.FirstName = user.FirstName;
+                userToUpdate.LastName = user.LastName;
+
+                await _database.SaveChangesAsync();
+            }
+        }
     }
 }

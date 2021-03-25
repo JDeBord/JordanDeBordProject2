@@ -1,8 +1,48 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<JordanDeBordProject2.Models.ViewModels.DisplayMovieHomeVM>
+
+@{
+    var totalWatched = ViewData["TotalWatched"];
+    var totalSpent = (double)ViewData["TotalSpent"];
+    var formattedTotalSpent = totalSpent.ToString("C");
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumTimesWatched)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumTimesWatched)
+            </td>
+            <td>
+                 |
+                <a asp-action="Details" asp-controller="Movie" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Watch" asp-controller="Movie" asp-route-id="@item.Id">Watch Again</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<hr />
+<div>
+    <p>
+        Count of movies watched: @totalWatched
+        Total money spent watching movies: @formattedTotalSpent
+    </p>
 </div>

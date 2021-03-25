@@ -7,16 +7,25 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Models.ViewModels
 {
-    public class CreateProfileVM
+    public class EditProfileVM
     {
-        public string ApplicationUserId{ get; set; }
+
+        public int ProfileId { get; set; }
+
+        public string UserId { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Display(Name = "Credit Card Number")]
         public string CCNum { get; set; }
 
         [Display(Name = "Credit Card Expiration")]
         [DataType(DataType.Date)]
-        public DateTime CCExp { get; set; }
+        public  DateTime CCExp { get; set; }
 
         [Display(Name = "Address Line 1")]
         public string AddLine1 { get; set; }
@@ -24,9 +33,7 @@ namespace JordanDeBordProject2.Models.ViewModels
         [Display(Name = "Address Line 2")]
         public string AddLine2 { get; set; }
 
-
         public string City { get; set; }
-
 
         public string State { get; set; }
 
@@ -37,7 +44,7 @@ namespace JordanDeBordProject2.Models.ViewModels
         {
             return new Profile
             {
-                Id = 0,
+                Id = this.ProfileId,
                 CCNum = this.CCNum,
                 CCExp = this.CCExp,
                 AddLine1 = this.AddLine1,
@@ -47,5 +54,17 @@ namespace JordanDeBordProject2.Models.ViewModels
                 ZIPCode = this.ZIPCode
             };
         }
+
+        public ApplicationUser GetUserInstance() 
+        {
+            return new ApplicationUser
+            {
+                Id = this.UserId,
+                FirstName = this.FirstName,
+                LastName = this.LastName
+            };
+        }
+
+
     }
 }

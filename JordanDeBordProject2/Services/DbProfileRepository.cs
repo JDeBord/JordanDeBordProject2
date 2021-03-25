@@ -69,7 +69,7 @@ namespace JordanDeBordProject2.Services
             return profile;
         }
 
-        public async Task TaskUpdateAsyc(Profile profile)
+        public async Task UpdateAsyc(Profile profile)
         {
             var profileToUpdate = await ReadAsync(profile.Id);
 
@@ -101,6 +101,14 @@ namespace JordanDeBordProject2.Services
             var profile = await _database.Profiles.FirstOrDefaultAsync(p => p.ApplicationUserId == applicationUserId);
 
             return profile;
+        }
+
+        public async Task<ICollection<PaidMovie>> GetPaidMoviesAsync(int profileId) 
+        {
+            var query = await _database.PaidMovies.Include(m => m.Movie).ToListAsync();
+
+            var movies = query.Where(p => p.ProfileId == profileId).ToList();
+            return movies;
         }
     }
 }

@@ -55,6 +55,21 @@ namespace JordanDeBordProject2.Models.Entities
             } 
         }
 
+        [NotMapped]
+        public int TotalWatched
+        {
+            get 
+            {
+                var total = 0;
+                foreach (var movie in PaidMovies)
+                {
+                    total += movie.TimesWatched;
+                }
+
+                return total;
+            }
+        }
+
         public string GetFormattedAddress()
         {
             if (AddLine2 == null)
