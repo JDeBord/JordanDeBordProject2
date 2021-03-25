@@ -1,0 +1,17 @@
+﻿@model JordanDeBordProject2.Models.ViewModels.DeleteProfileVM
+
+
+
+<h1>You are about to delete your profile!</h1>
+
+<h3>Are you sure? Select 'Yes, Delete It!' to delete.</h3>
+<div>
+    <form asp-action="Delete">
+        <input value="@Model.Id" name="profileId" hidden readonly />
+        <input type="submit" value="Yes, Delete It!" class="btn btn-danger" />
+    </form>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Movie">All Movies</a> | 
+    <a asp-action="Index" asp-controller="Home">Watched Movies</a>
+</div>

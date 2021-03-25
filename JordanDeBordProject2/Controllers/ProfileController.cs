@@ -127,7 +127,7 @@ namespace JordanDeBordProject2.Controllers
             }
 
             ViewData["Title"] = "Create A Profile";
-            return View();
+            return View(profileVM);
         }
 
         public async Task<IActionResult> Details()
@@ -292,31 +292,40 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewData["Title"] = "Editing Your Profile";
-            return View();
+            return View(profileVM);
         }
 
         public async Task<IActionResult> Delete()
         {
-            //// If user is not logged in, redirect to login.
-            //if (User == null)
-            //{
-            //    return RedirectToAction("Account", "Identity", "LogIn");
-            //}
-            //// If user is an Admin, redirect to Admin index.
-            //if (User.IsInRole("Admin"))
-            //{
-            //    return RedirectToAction("Index", "Admin");
-            //}
-            //// If user already has a profile, redirect to Home index
-            //var userId = _userManager.GetUserId(User);
+            // If user is an Admin, redirect to Admin index.
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            // If user doesn't have a profile, redirect to create one.
+            var userId = _userManager.GetUserId(User);
 
-            //if (!(await _profileRepository.CheckProfile(userId)))
-            //{
-            //    return RedirectToAction("Create");
-            //}
+            if (!(await _profileRepository.CheckProfile(userId)))
+            {
+                return RedirectToAction("Create");
+            }
+            var profile = await _profileRepository.ReadByUserAsync(userId);
+            var model = new DeleteProfileVM
+            {
+                Id = profile.Id
+            };
 
             ViewData["Title"] = "Deleting Profile";
-            return View();
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int profileId) 
+        {
+            await _profileRepository.DeleteAsync(profileId);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
