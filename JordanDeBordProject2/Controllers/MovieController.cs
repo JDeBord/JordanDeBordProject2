@@ -45,9 +45,10 @@ namespace JordanDeBordProject2.Controllers
             {
                 return RedirectToAction("Create", "Profile");
             }
-            var profile = _profileRepository.ReadByUserAsync(userId);
-            // List of movies (Title [watched/notwatched] ), Details link. Watch link.
+            var profile = await _profileRepository.ReadByUserAsync(userId);
+
             var movies = await _movieRepository.ReadAllAsync();
+
             var boughtMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
 
             var model = movies.Select(movie =>
@@ -95,9 +96,23 @@ namespace JordanDeBordProject2.Controllers
             }
 
             // Construct view model (id, title, year, length, price)
+            var movie = await _movieRepository.ReadAsync(id);
+
+            if (movie == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var model = new DetailsMovieVM
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Year = movie.Year,
+                LengthInMin = movie.LengthInMinutes,
+                Price = movie.Price
+            };
 
             ViewData["Title"] = "Movie Details";
-            return View();
+            return View(model);
         }
 
         public async Task<IActionResult> Pay(int id)

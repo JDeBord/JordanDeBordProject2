@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Models.ViewModels
 {
-    public class DisplayMovieIndexVM
+    public class DetailsMovieVM
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public string WatchStatus { get; set; }
+        public int Year { get; set; }
+
+        [Display(Name = "Length In Minutes")]
+        public int? LengthInMin { get; set; }
+
+        public double Price { get; set; }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model JordanDeBordProject2.Models.ViewModels.DetailsMovieVM
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LengthInMin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LengthInMin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Price.ToString("C")
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Watch" asp-route-id="@Model.Id">Watch</a> | 
+    <a asp-action="Index">All Movies</a> |
+    <a asp-action="Index" asp-controller="Home">Watched Movies</a>
+</div>
