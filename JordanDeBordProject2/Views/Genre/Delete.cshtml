@@ -1,0 +1,13 @@
+﻿@model JordanDeBordProject2.Models.ViewModels.GenreVM
+
+
+<h3>Are you sure you want to delete genre @Model.GenreName?</h3>
+<h5>If so, choose 'Yes, Delete!' below.</h5>
+<div>
+    <hr />
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Yes, Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to Admin Genre List</a>
+    </form>
+</div>

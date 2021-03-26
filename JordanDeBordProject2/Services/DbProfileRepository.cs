@@ -110,5 +110,17 @@ namespace JordanDeBordProject2.Services
             var movies = query.Where(p => p.ProfileId == profileId).ToList();
             return movies;
         }
+
+        public async Task UpdateWatchedCountAsync(int profileId, int movieId)
+        {
+            var paidMovie = await _database.PaidMovies.Where(p => p.ProfileId == profileId)
+                                .Where(m => m.MovieId == movieId).FirstOrDefaultAsync();
+
+            if (paidMovie != null)
+            {
+                paidMovie.TimesWatched += 1;
+                await _database.SaveChangesAsync();
+            }
+        }
     }
 }

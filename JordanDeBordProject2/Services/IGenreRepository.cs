@@ -16,7 +16,7 @@ namespace JordanDeBordProject2.Services
 
         Task<Genre> CreateAsyc(Genre genre);
 
-        Task TaskUpdateAsyc(Genre genre);
+        Task UpdateAsyc(Genre genre);
 
         Task DeleteAsync(int genreId);
     }

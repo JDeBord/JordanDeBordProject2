@@ -52,7 +52,7 @@ namespace JordanDeBordProject2.Services
             return genre;
         }
 
-        public async Task TaskUpdateAsyc(Genre genre)
+        public async Task UpdateAsyc(Genre genre)
         {
             var genreToUpdate = await ReadAsync(genre.Id);
 

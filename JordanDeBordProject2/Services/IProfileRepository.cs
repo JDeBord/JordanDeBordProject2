@@ -23,7 +23,9 @@ namespace JordanDeBordProject2.Services
         Task<ICollection<PaidMovie>> GetPaidMoviesAsync(int profileId);
 
         Task<bool> CheckProfile(string applicationUserId);
+        
         Task<Profile> ReadByUserAsync(string applicationUserId);
 
+        Task UpdateWatchedCountAsync(int profileId, int movieId);
     }
 }

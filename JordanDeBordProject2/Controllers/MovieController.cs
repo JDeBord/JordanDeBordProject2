@@ -32,7 +32,7 @@ namespace JordanDeBordProject2.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // redirect admin
+            // Redirect admins to admin Index.
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Admin");
@@ -44,12 +44,17 @@ namespace JordanDeBordProject2.Controllers
             if (!(await _profileRepository.CheckProfile(userId)))
             {
                 return RedirectToAction("Create", "Profile");
-            }
+            } 
+
+            // Get the user's profile, all the movies, and all the user's purchased movies. 
+
             var profile = await _profileRepository.ReadByUserAsync(userId);
 
             var movies = await _movieRepository.ReadAllAsync();
 
             var boughtMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
+            // Select a view model for each movie, and turn it into a list so that I can adjust the values,
+            //      as an IEnumerable wouldn't allow me to as easily.
 
             var model = movies.Select(movie =>
                  new DisplayMovieIndexVM
@@ -57,17 +62,14 @@ namespace JordanDeBordProject2.Controllers
                      Id = movie.Id,
                      Title = movie.Title,
                      WatchStatus = "Not Watched"
-                });
+                }).ToList();
+
             // Update the watched status for paid for and watched movies.
             foreach (var bm in boughtMovies)
             {
                 if (bm.TimesWatched > 0)
                 {
-                    var updatedMovie = model.FirstOrDefault(movie => movie.Id == bm.MovieId);
-                    if (updatedMovie != null)
-                    {
-                        updatedMovie.WatchStatus = "Watched";
-                    }
+                    model.FirstOrDefault(movie => movie.Id == bm.MovieId).WatchStatus = "Watched";
                 }
             }
 
@@ -115,7 +117,7 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Pay(int id)
+        public async Task<IActionResult> Pay([Bind(Prefix ="id")]int movieId)
         {
             // Redirect Admin
             if (User.IsInRole("Admin"))
@@ -131,25 +133,58 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Create", "Profile");
             }
 
-            // Redirect if already paid 
+            // If Movie doesn't exist, redirect to movie index.
+            var movie = await _movieRepository.ReadAsync(movieId);
+            if (movie == null)
+            {
+                return RedirectToAction("Index");
+            }
 
-            // Construct view model (id, title, price)
+            // Check if paid for, if not redirect to pay/id
+            var profile = await _profileRepository.ReadByUserAsync(userId);
+            var paidMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
+            var paidFor = false;
+            foreach (var mov in paidMovies)
+            {
+                if (mov.MovieId == movieId)
+                {
+                    paidFor = true;
+                    break;
+                }
+            }
 
-            ViewData["Title"] = "Paying for Movie";
-            return View();
+            if (paidFor)
+            {
+                return RedirectToAction("Watch", "Movie", new { id = movieId });
+            }
+            var model = new PayMovieVM
+            {
+                MovieId = movie.Id,
+                ProfileId = profile.Id,
+                Title = movie.Title,
+                Price = movie.Price.ToString("C"),
+            };
+
+            ViewData["Title"] = $"Paying for {movie.Title}";
+            return View(model);
         }
 
         [HttpPost, ActionName("Pay")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PayConfirmed(int id)
+        public async Task<IActionResult> PayConfirmed(PayMovieVM movieVM)
         {
-            // charge card
+            // This is where I would attempt to charge the card.
+            // If the Charge failed, I would return View(movieVM) and notify customer their card was declined.
+
             // create paid movie
+            var movie = await _movieRepository.ReadAsync(movieVM.MovieId);
+
+            await _profileRepository.AddPaidMovie(movieVM.ProfileId, movie);
             // redirect to movie/watch/id
-            return View();
+            return RedirectToAction("Watch", "Movie", new { id = movie.Id });
         }
 
-        public async Task<IActionResult> Watch(int id)
+        public async Task<IActionResult> Watch([Bind(Prefix = "id")] int movieId)
         {
             // Redirect Admin
             if (User.IsInRole("Admin"))
@@ -165,14 +200,43 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Create", "Profile");
             }
 
+            var movie = await _movieRepository.ReadAsync(movieId);
+
+            // If the movie doesn't exist, redirect to Movie Index
+            if (movie == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             // Check if paid for, if not redirect to pay/id
+            var profile = await _profileRepository.ReadByUserAsync(userId);
+            var paidMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
+            var paidFor = false;
+            foreach (var mov in paidMovies)
+            {
+                if (mov.MovieId == movieId)
+                {
+                    paidFor = true;
+                    break;
+                }
+            }
 
-            // If paid for, update # times watched
+            if (!paidFor)
+            {
+                return RedirectToAction("Pay", "Movie", new { id = movieId });
+            }
+            // If paid for, update # times watched.
+            await _profileRepository.UpdateWatchedCountAsync(profile.Id, movieId);
 
-            // display imdb url
-
-            ViewData["Title"] = "Watching Movie";
-            return View();
+            var model = new WatchMovieVM
+            { 
+                Id = movie.Id,
+                Title = movie.Title,
+                IMDB_URL = movie.IMDB_URL
+            };
+            
+            ViewData["Title"] = $"Watching {movie.Title}";
+            return View(model);
         }
     }
 }

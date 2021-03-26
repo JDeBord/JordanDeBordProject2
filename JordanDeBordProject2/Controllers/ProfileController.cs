@@ -52,7 +52,7 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewData["UserId"] = user.Id;
-            ViewData["Title"] = "Create A Profile";
+            ViewData["Title"] = "Create Your Profile";
             return View();
         }
 
@@ -126,7 +126,11 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["Title"] = "Create A Profile";
+            // we need to store the UserID back in the ViewData
+            var userName = User.Identity.Name;
+            var user = await _userRepository.ReadAsync(userName);
+            ViewData["UserId"] = user.Id;
+            ViewData["Title"] = "Create Your Profile";
             return View(profileVM);
         }
 
