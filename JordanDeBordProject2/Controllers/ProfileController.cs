@@ -66,14 +66,26 @@ namespace JordanDeBordProject2.Controllers
             // If user already has a profile, redirect to Home index
             var userId = _userManager.GetUserId(User);
             var profile = await _profileRepository.ReadByUserAsync(userId);
-
             if (profile != null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewData["UserId"] = userId;
+
+            var userName = User.Identity.Name;
+
+            var user = await _userRepository.ReadAsync(userName);
+            
+            var name = $"{user.FirstName} {user.LastName}";
+            
+            var model = new CreateProfileVM
+            {
+                ApplicationUserId = userId,
+                Name = name,
+                CCExp = DateTime.Now.Date
+            };
+
             ViewData["Title"] = "Create Your Profile";
-            return View();
+            return View(model);
         }
 
         /// <summary>
@@ -222,6 +234,7 @@ namespace JordanDeBordProject2.Controllers
             {
                 ProfileId = profile.Id,
                 UserId = user.Id,
+                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 CCNum = profile.CCNum,

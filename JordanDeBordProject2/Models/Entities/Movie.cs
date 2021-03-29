@@ -16,8 +16,8 @@ namespace JordanDeBordProject2.Models.Entities
         [MaxLength(50)]
         public string Title { get; set; }
 
-        [Required]
-        public int Year { get; set; }
+
+        public int? Year { get; set; }
 
         public int? LengthInMinutes { get; set; }
 

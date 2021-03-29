@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JordanDeBordProject2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210327132419_Mig01")]
+    [Migration("20210329200629_Mig01")]
     partial class Mig01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,7 +135,7 @@ namespace JordanDeBordProject2.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Year")
+                    b.Property<int?>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

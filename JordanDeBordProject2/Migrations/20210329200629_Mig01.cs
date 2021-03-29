@@ -68,7 +68,7 @@ namespace JordanDeBordProject2.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: true),
                     LengthInMinutes = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     IMDB_URL = table.Column<string>(type: "nvarchar(max)", nullable: false)

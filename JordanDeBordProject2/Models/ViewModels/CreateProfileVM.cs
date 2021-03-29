@@ -11,6 +11,8 @@ namespace JordanDeBordProject2.Models.ViewModels
     {
         public string ApplicationUserId{ get; set; }
 
+        public string Name { get; set; }
+
         [Display(Name = "Credit Card Number")]
         public string CCNum { get; set; }
 

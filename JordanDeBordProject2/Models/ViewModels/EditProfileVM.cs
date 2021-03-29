@@ -14,6 +14,8 @@ namespace JordanDeBordProject2.Models.ViewModels
 
         public string UserId { get; set; }
 
+        public string UserName { get; set; }
+
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -60,6 +62,7 @@ namespace JordanDeBordProject2.Models.ViewModels
             return new ApplicationUser
             {
                 Id = this.UserId,
+                UserName = this.UserName,
                 FirstName = this.FirstName,
                 LastName = this.LastName
             };

@@ -66,12 +66,12 @@ namespace JordanDeBordProject2.Services
             }
 
             // If the Admin account doesn't exist, create it.
-            if (!_database.Users.Any(user => user.UserName == "admin@test.com"))
+            if (!_database.Users.Any(user => user.UserName == "admin@email.com"))
             {
                 var user = new ApplicationUser
                 {
-                    Email = "admin@test.com",
-                    UserName = "admin@test.com",
+                    Email = "admin@email.com",
+                    UserName = "admin@email.com",
                     FirstName = "Admin",
                     LastName = "Admin"
                 };

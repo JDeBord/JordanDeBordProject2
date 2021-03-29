@@ -114,6 +114,11 @@ namespace JordanDeBordProject2.Controllers
                 ModelState.AddModelError("Price", "The Price must be less than 999.99, and a valid dollar amount.");
             }
 
+            if (!(movieVM.Price > 0)) 
+            {
+                ModelState.AddModelError("Price", "The Price must be greater than 0.");
+            }
+
             // Error checking IMDB URL.
             if (movieVM.IMDB_URL == null)
             {
@@ -198,6 +203,10 @@ namespace JordanDeBordProject2.Controllers
             if (!regex.IsMatch(movieVM.Price.ToString()))
             {
                 ModelState.AddModelError("Price", "The Price must be less than 999.99, and a valid dollar amount.");
+            }
+            if (!(movieVM.Price > 0))
+            {
+                ModelState.AddModelError("Price", "The Price must be greater than 0.");
             }
 
             // Error checking IMDB URL.
