@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Controllers
 {
+    /// <summary>
+    /// Movie Controller, which handles client requests and directs them to the appropriate action method and then sends
+    /// the response to user. It handles requests from clients to /movie/{action} where the action is the name of the method below.
+    /// Non-logged in users are sent to log in.
+    /// </summary>
     [Authorize]
     public class MovieController : Controller
     {
@@ -18,6 +23,12 @@ namespace JordanDeBordProject2.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMovieRepository _movieRepository;
 
+        /// <summary>
+        /// Constructor for Movie Controller, where we inject our needed repositories and services.
+        /// </summary>
+        /// <param name="profileRepository">Profile repository used to access database for profile CRUD operations.</param>
+        /// <param name="movieRepository">Movie repository used to access database for movie CRUD operations.</param>
+        /// <param name="userManager">UserManager to provide needed user interactions with Database.</param>
         public MovieController (IProfileRepository profileRepository,
             IMovieRepository movieRepository,
             UserManager<ApplicationUser> userManager)
@@ -27,6 +38,10 @@ namespace JordanDeBordProject2.Controllers
             _movieRepository = movieRepository;
         }
 
+        /// <summary>
+        /// Index action method, which returns a view of all the movies in the database for users to browse.
+        /// </summary>
+        /// <returns>A View with a list of movies the the ability to view details about them.</returns>
         public async Task<IActionResult> Index()
         {
             // Redirect admins to admin Index.
@@ -48,8 +63,7 @@ namespace JordanDeBordProject2.Controllers
             var movies = await _movieRepository.ReadAllAsync();
 
             var boughtMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
-            // Select a view model for each movie, and turn it into a list so that I can adjust the values,
-            //      as an IEnumerable wouldn't allow me to as easily.
+            // Select a view model for each movie, and turn it into a list so that we can adjust the values.
 
             var model = movies.Select(movie =>
                  new DisplayMovieIndexVM
@@ -76,6 +90,11 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Details action method, which responds with a view containing details about the movie.
+        /// </summary>
+        /// <param name="id">Id of movie to display details about.</param>
+        /// <returns>A View with details of the movie.</returns>
         public async Task<IActionResult> Details(int id)
         {
             // Redirect Admin to Admin Index.
@@ -93,13 +112,14 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Create", "Profile");
             }
 
-            // Construct view model (id, title, year, length, price)
+            // Construct view model of the movie. If the movie doesn't exist redirect to Index.
             var movie = await _movieRepository.ReadAsync(id);
 
             if (movie == null)
             {
                 return RedirectToAction("Index");
             }
+
             var model = new DetailsMovieVM
             {
                 Id = movie.Id,
@@ -113,9 +133,14 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Pay Get action method, which loads a view which displays a message about paying for a movie.
+        /// </summary>
+        /// <param name="movieId">Id of the Movie for the customer to purchase.</param>
+        /// <returns>View with information about the possible purchase, for the user to confirm.</returns>
         public async Task<IActionResult> Pay([Bind(Prefix ="id")]int movieId)
         {
-            // Redirect Admin
+            // Redirect Admin to Admin Index.
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Admin");
@@ -137,7 +162,7 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Check if paid for, if not redirect to pay/id
+            // Check if user has already paid for movie.
             var paidMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
             var paidFor = false;
             foreach (var mov in paidMovies)
@@ -149,10 +174,12 @@ namespace JordanDeBordProject2.Controllers
                 }
             }
 
+            // If they have already paid for it, redirect to /movie/watch/id
             if (paidFor)
             {
                 return RedirectToAction("Watch", "Movie", new { id = movieId });
             }
+
             var model = new PayMovieVM
             {
                 MovieId = movie.Id,
@@ -165,6 +192,12 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Pay Post action method, which is where customer is charged for the movie, the PaidMovie is created,
+        /// and we redirect the user to watch their new movie.
+        /// </summary>
+        /// <param name="movieVM">ViewModel containing information about the movie to be purchased and user.</param>
+        /// <returns>Redirects user to watch the movie after charging them.</returns>
         [HttpPost, ActionName("Pay")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PayConfirmed(PayMovieVM movieVM)
@@ -172,17 +205,23 @@ namespace JordanDeBordProject2.Controllers
             // This is where I would attempt to charge the card.
             // If the Charge failed, I would return View(movieVM) and notify customer their card was declined.
 
-            // create paid movie
+            // Create the paid movie.
             var movie = await _movieRepository.ReadAsync(movieVM.MovieId);
-
             await _profileRepository.AddPaidMovie(movieVM.ProfileId, movie);
+            
             // redirect to movie/watch/id
             return RedirectToAction("Watch", "Movie", new { id = movie.Id });
         }
 
+        /// <summary>
+        /// Watch action method which returns a view containing the link to the IMDB profile of the movie
+        /// to simulate watching the movie. 
+        /// </summary>
+        /// <param name="movieId">Id of movie to be provided to user.</param>
+        /// <returns>View containing link to IMDB profile of the movie.</returns>
         public async Task<IActionResult> Watch([Bind(Prefix = "id")] int movieId)
         {
-            // Redirect Admin
+            // Redirect Admin to Admin Index.
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Admin");
@@ -205,7 +244,7 @@ namespace JordanDeBordProject2.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Check if paid for, if not redirect to pay/id
+            // Check if the user has paid for the movie. If not redirect to pay/id.
             var paidMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
             var paidFor = false;
             foreach (var mov in paidMovies)
@@ -221,7 +260,8 @@ namespace JordanDeBordProject2.Controllers
             {
                 return RedirectToAction("Pay", "Movie", new { id = movieId });
             }
-            // If paid for, update # times watched.
+
+            // If paid for, update the number of times watched.
             await _profileRepository.UpdateWatchedCountAsync(profile.Id, movieId);
 
             var model = new WatchMovieVM

@@ -13,14 +13,24 @@ using JordanDeBordProject2.Models;
 
 namespace JordanDeBordProject2.Controllers
 {
+    /// <summary>
+    /// Profile Controller, which handles client requests and directs them to the appropriate action method and then sends
+    /// the response to user. It handles requests from clients to /profile/{action} where the action is the name of the method below.
+    /// Non-logged in users are sent to log in.
+    /// </summary>
     [Authorize]
     public class ProfileController : Controller
     {
-        private IProfileRepository _profileRepository;
-        private IUserRepository _userRepository;
-        private UserManager<ApplicationUser> _userManager;
+        private readonly IProfileRepository _profileRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
+        /// <summary>
+        /// Constructor for Profile Controller, where we inject our needed repositories into the Controller.
+        /// </summary>
+        /// <param name="profileRepository">Profile Repository for profile related database needs.</param>
+        /// <param name="userRepository">User repository for user related database needs.</param>
+        /// <param name="userManager">UserManager to manage database related to other User needs.</param>
         public ProfileController(IProfileRepository profileRepository, 
             IUserRepository userRepository,
             UserManager<ApplicationUser> userManager)
@@ -29,11 +39,21 @@ namespace JordanDeBordProject2.Controllers
             _userManager = userManager;
             _userRepository = userRepository;
         }
+
+        /// <summary>
+        /// Index action method, users should not end up here, but redirect to home index if they somehow do.
+        /// </summary>
+        /// <returns>Redirects users to their Home Index.</returns>
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Create Get action method which displays a form for the user to provide information and create their
+        /// profile.
+        /// </summary>
+        /// <returns>A view with a form for user to provide profile information to create.</returns>
         public async Task<IActionResult> Create()
         {
 
@@ -56,6 +76,11 @@ namespace JordanDeBordProject2.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Create Post action method where we verify user's information is valid, then create the profile.
+        /// </summary>
+        /// <param name="profileVM">CreateProfileVM containing information for the profile to be created.</param>
+        /// <returns>After creating, redirect to Home Index.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProfileVM profileVM)
@@ -108,6 +133,7 @@ namespace JordanDeBordProject2.Controllers
             {
                 ModelState.AddModelError("State", "You must use a valid 2 digit state code.");
             }
+
             // Error Checking ZIP.
             regex = new Regex(@"^[0-9]{5}$");
             if (profileVM.ZIPCode == null) 
@@ -133,6 +159,10 @@ namespace JordanDeBordProject2.Controllers
             return View(profileVM);
         }
 
+        /// <summary>
+        /// Details get action method, used to display the user's profile information.
+        /// </summary>
+        /// <returns>A view containing profile information for the user.</returns>
         public async Task<IActionResult> Details()
         {
             // If user is an Admin, redirect to Admin index.
@@ -167,6 +197,10 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Edit get action method, used to display current information about the user's profile, and provides the ability to edit it.
+        /// </summary>
+        /// <returns>A view containing the user's current profile information and the ability to edit it.</returns>
         public async Task<IActionResult> Edit()
         {
             // If user is an Admin, redirect to Admin index.
@@ -203,6 +237,11 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Edit post action method, where we validate the information and then update the User and Profile with the new information.
+        /// </summary>
+        /// <param name="profileVM">EditProfileVM containing new information for user and profile.</param>
+        /// <returns>Redirects to Home index after updating profile and user.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProfileVM profileVM) 
@@ -216,6 +255,7 @@ namespace JordanDeBordProject2.Controllers
             {
                 ModelState.AddModelError("FirstName", "First Name must be 50 or fewer characters.");
             }
+
             // Error checking last name.
             if (profileVM.LastName == null)
             {
@@ -300,6 +340,10 @@ namespace JordanDeBordProject2.Controllers
             return View(profileVM);
         }
 
+        /// <summary>
+        /// Delete get action method, which returns a view warning the user they are about to delete their profile.
+        /// </summary>
+        /// <returns>A view to verify user wants to delete their profile.</returns>
         public async Task<IActionResult> Delete()
         {
             // If user is an Admin, redirect to Admin index.
@@ -326,6 +370,11 @@ namespace JordanDeBordProject2.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Delete post action method, where the profile is deleted from the database.
+        /// </summary>
+        /// <param name="profileId">Id of profile to be deleted.</param>
+        /// <returns>After deleting profile, redirect to Home Index.</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int profileId) 

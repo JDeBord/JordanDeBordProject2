@@ -4,7 +4,7 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -34,6 +34,11 @@
                 <label asp-for="CCExp" class="control-label"></label>
                 <input asp-for="CCExp" class="form-control" />
                 <span asp-validation-for="CCExp" class="text-danger"></span>
+            </div>
+            <div class="text-sm-left">
+                <p>
+                    Note: If your card does not have a day, choose the last day of that month.
+                </p>
             </div>
             <div class="form-group">
                 <label asp-for="AddLine1" class="control-label"></label>

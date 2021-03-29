@@ -9,6 +9,7 @@ namespace JordanDeBordProject2.Models.ViewModels
 {
     public class CreateMovieVM
     {
+        [Required]
         public string Title { get; set; }
 
         public int Year { get; set; }
@@ -19,6 +20,7 @@ namespace JordanDeBordProject2.Models.ViewModels
         public double Price { get; set; }
 
         [Display(Name = "IMDB URL")]
+        [Required]
         public string IMDB_URL { get; set; }
 
         public Movie GetMovieInstance() 

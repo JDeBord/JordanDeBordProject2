@@ -3,6 +3,7 @@
 @{
     var totalWatched = ViewData["TotalWatched"];
     var totalSpent = (double)ViewData["TotalSpent"];
+    var totalMovies = ViewData["TotalMovies"];
     var formattedTotalSpent = totalSpent.ToString("C");
 
 }
@@ -43,6 +44,9 @@
 </table>
 <hr />
 <div>
+    <p>
+        Total number of movies watched: @totalMovies
+    </p>
     <p>
         Count of movies watched: @totalWatched
     </p>
