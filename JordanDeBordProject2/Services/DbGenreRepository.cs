@@ -28,6 +28,7 @@ namespace JordanDeBordProject2.Services
         /// Adds the Genre provided to the database. 
         /// </summary>
         /// <param name="genre">Genre to be added to the database.</param>
+        /// <returns>Genre that was added to the database.</returns>
         public async Task<Genre> CreateAsyc(Genre genre)
         {
             await _database.Genres.AddAsync(genre);
@@ -39,7 +40,7 @@ namespace JordanDeBordProject2.Services
         /// <summary>
         /// Removes the genre from the database. 
         /// </summary>
-        /// <param name="genreId">Id of the Genre to be deleted.</param>
+        /// <param name="genreId">Id of the Genre to be removed.</param>
         public async Task DeleteAsync(int genreId)
         {
             var genreToDelete = await ReadAsync(genreId);
@@ -48,12 +49,21 @@ namespace JordanDeBordProject2.Services
             await _database.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Method to read all Genres from the database.
+        /// </summary>
+        /// <returns>A List of all Genres from the database.</returns>
         public async Task<ICollection<Genre>> ReadAllAsync()
         {
             var genres = await _database.Genres.ToListAsync();
             return genres;
         }
 
+        /// <summary>
+        /// Method to get the first genre with the provided Id.
+        /// </summary>
+        /// <param name="genreId">Id of the genre to be returned.</param>
+        /// <returns>Genre with the provided Id.</returns>
         public async Task<Genre> ReadAsync(int genreId)
         {
             var genre = await _database.Genres.FirstOrDefaultAsync(g => g.Id == genreId);
@@ -61,6 +71,12 @@ namespace JordanDeBordProject2.Services
             return genre;
         }
 
+        /// <summary>
+        /// Returns the first genre from the database with the associated name. This is used by 
+        /// our Initializer to make sure the Genre is associated with the movie. 
+        /// </summary>
+        /// <param name="genreName">Name of genre to be returned.</param>
+        /// <returns>First genre from the database with that name.</returns>
         public async Task<Genre> ReadByNameAsync(string genreName)
         {
             var genre = await _database.Genres.FirstOrDefaultAsync(g => g.Name == genreName);
@@ -68,6 +84,10 @@ namespace JordanDeBordProject2.Services
             return genre;
         }
 
+        /// <summary>
+        /// Updates the genre in the database.
+        /// </summary>
+        /// <param name="genre">Genre containing information to be updated.</param>
         public async Task UpdateAsyc(Genre genre)
         {
             var genreToUpdate = await ReadAsync(genre.Id);

@@ -40,12 +40,13 @@ namespace JordanDeBordProject2.Controllers
 
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create", "Profile");
             }
-            var profile = await _profileRepository.ReadByUserAsync(userId);
+
             var movies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
 
             var model = movies.Select(movie =>

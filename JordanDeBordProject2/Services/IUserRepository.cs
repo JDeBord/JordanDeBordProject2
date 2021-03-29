@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace JordanDeBordProject2.Services
 {
     /// <summary>
-    /// Interface for our User Repository containing method headers for read 
-    /// and update operations to be implemented in the Repository. 
+    /// Interface for our User Repository. It contains method headers for read 
+    /// and update operations for users which are to be implemented in the Repository.
     /// </summary>
     public interface IUserRepository
     {

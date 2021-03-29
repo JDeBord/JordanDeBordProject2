@@ -37,16 +37,14 @@ namespace JordanDeBordProject2.Controllers
 
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create", "Profile");
             } 
 
-            // Get the user's profile, all the movies, and all the user's purchased movies. 
-
-            var profile = await _profileRepository.ReadByUserAsync(userId);
-
+            // Get all the movies and all the user's purchased movies. 
             var movies = await _movieRepository.ReadAllAsync();
 
             var boughtMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
@@ -80,7 +78,7 @@ namespace JordanDeBordProject2.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            // Redirect Admin
+            // Redirect Admin to Admin Index.
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Admin");
@@ -88,8 +86,9 @@ namespace JordanDeBordProject2.Controllers
 
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create", "Profile");
             }
@@ -124,8 +123,9 @@ namespace JordanDeBordProject2.Controllers
 
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create", "Profile");
             }
@@ -191,8 +191,9 @@ namespace JordanDeBordProject2.Controllers
 
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create", "Profile");
             }

@@ -44,14 +44,14 @@ namespace JordanDeBordProject2.Controllers
             }
 
             // If user already has a profile, redirect to Home index
-            var userName = User.Identity.Name;
-            var user = await _userRepository.ReadAsync(userName);
+            var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (await _profileRepository.CheckProfile(user.Id))
+            if (profile != null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewData["UserId"] = user.Id;
+            ViewData["UserId"] = userId;
             ViewData["Title"] = "Create Your Profile";
             return View();
         }
@@ -127,9 +127,8 @@ namespace JordanDeBordProject2.Controllers
             }
 
             // we need to store the UserID back in the ViewData
-            var userName = User.Identity.Name;
-            var user = await _userRepository.ReadAsync(userName);
-            ViewData["UserId"] = user.Id;
+            var userId = _userManager.GetUserId(User);
+            ViewData["UserId"] = userId;
             ViewData["Title"] = "Create Your Profile";
             return View(profileVM);
         }
@@ -144,16 +143,15 @@ namespace JordanDeBordProject2.Controllers
             
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
             var userName = User.Identity.Name;
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create");
             }
 
             ViewData["Title"] = "Viewing Your Profile";
-            
-            var profile = await _profileRepository.ReadByUserAsync(userId);
 
             var user = await _userRepository.ReadAsync(userName);
 
@@ -179,12 +177,12 @@ namespace JordanDeBordProject2.Controllers
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
             var userName = User.Identity.Name;
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create");
             }
-            var profile = await _profileRepository.ReadByUserAsync(userId);
             var user = await _userRepository.ReadAsync(userName);
             var model = new EditProfileVM
             {
@@ -297,6 +295,7 @@ namespace JordanDeBordProject2.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+
             ViewData["Title"] = "Editing Your Profile";
             return View(profileVM);
         }
@@ -310,12 +309,13 @@ namespace JordanDeBordProject2.Controllers
             }
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            if (!(await _profileRepository.CheckProfile(userId)))
+            if (profile == null)
             {
                 return RedirectToAction("Create");
             }
-            var profile = await _profileRepository.ReadByUserAsync(userId);
+            
             var model = new DeleteProfileVM
             {
                 Id = profile.Id
@@ -331,6 +331,7 @@ namespace JordanDeBordProject2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int profileId) 
         {
             await _profileRepository.DeleteAsync(profileId);
+
             return RedirectToAction("Index", "Home");
         }
     }

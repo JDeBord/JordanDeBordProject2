@@ -10,14 +10,14 @@ namespace JordanDeBordProject2.Services
 {
     /// <summary>
     /// ApplicationDbContext class acts as the bridge to our database.
-    /// We interact with our database through this class. 
+    /// We use this class to interact with our database. 
     /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         /// <summary>
-        /// Constructor for ApplicationDbContext.
+        /// Constructor for ApplicationDbContext which passes on the options to the super class constructor.
         /// </summary>
-        /// <param name="options">Options to be passed to the superconstructor. These are
+        /// <param name="options">Options to be passed to the super constructor. These are
         ///     used to link to the database using the connectionstring from appsettings.json. </param>
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

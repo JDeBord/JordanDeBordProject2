@@ -271,11 +271,14 @@ namespace JordanDeBordProject2.Services
         /// <returns></returns>
         public async Task SeedMovieGenresAsync() 
         {
+            // Movie and Genre to check. 
             Movie movie = null;
             Genre genre = null;
+
             // Genres for LOTR.
             movie = await _movieRepo.ReadByNameAsync("The Lord of the Rings: The Fellowship of the Ring");
             genre = await _genreRepo.ReadByNameAsync("Action");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -285,6 +288,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Adventure");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -292,9 +296,11 @@ namespace JordanDeBordProject2.Services
                     await _movieRepo.AddGenreAsync(movie.Id, genre);
                 }
             }
+
             // Genres for The Godfather.
             movie = await _movieRepo.ReadByNameAsync("The Godfather");
             genre = await _genreRepo.ReadByNameAsync("Drama");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -304,6 +310,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Crime");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -315,6 +322,7 @@ namespace JordanDeBordProject2.Services
             // Genres for Forrest Gump.
             movie = await _movieRepo.ReadByNameAsync("Forrest Gump");
             genre = await _genreRepo.ReadByNameAsync("Drama");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -324,6 +332,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Romance");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -335,6 +344,7 @@ namespace JordanDeBordProject2.Services
             // Genres for Silence of the Lambs
             movie = await _movieRepo.ReadByNameAsync("The Silence of the Lambs");
             genre = await _genreRepo.ReadByNameAsync("Drama");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -344,6 +354,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Crime");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -353,6 +364,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Thriller");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -364,6 +376,7 @@ namespace JordanDeBordProject2.Services
             // Genres for The Lion King.
             movie = await _movieRepo.ReadByNameAsync("The Lion King");
             genre = await _genreRepo.ReadByNameAsync("Drama");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -373,6 +386,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Adventure");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -384,6 +398,7 @@ namespace JordanDeBordProject2.Services
             // Genres for Gladiator.
             movie = await _movieRepo.ReadByNameAsync("Gladiator");
             genre = await _genreRepo.ReadByNameAsync("Action");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -393,6 +408,7 @@ namespace JordanDeBordProject2.Services
             }
 
             genre = await _genreRepo.ReadByNameAsync("Adventure");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -403,6 +419,7 @@ namespace JordanDeBordProject2.Services
             // Genres for Braveheart.
             movie = await _movieRepo.ReadByNameAsync("Braveheart");
             genre = await _genreRepo.ReadByNameAsync("Drama");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -414,6 +431,7 @@ namespace JordanDeBordProject2.Services
             // Genres for Amadeus.
             movie = await _movieRepo.ReadByNameAsync("Amadeus");
             genre = await _genreRepo.ReadByNameAsync("Drama");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -425,6 +443,7 @@ namespace JordanDeBordProject2.Services
             // Genres for Hamilton.
             movie = await _movieRepo.ReadByNameAsync("Hamilton");
             genre = await _genreRepo.ReadByNameAsync("Musical");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
@@ -436,6 +455,7 @@ namespace JordanDeBordProject2.Services
             // Genres for 1917.
             movie = await _movieRepo.ReadByNameAsync("1917");
             genre = await _genreRepo.ReadByNameAsync("Thriller");
+
             if (movie != null && genre != null)
             {
                 if (!_database.MovieGenres.Any(mg => mg.Movie == movie && mg.Genre == genre))
