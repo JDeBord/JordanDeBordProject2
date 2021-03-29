@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JordanDeBordProject2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210323234147_Mig01")]
+    [Migration("20210327132419_Mig01")]
     partial class Mig01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,12 @@ namespace JordanDeBordProject2.Migrations
 
                     b.Property<int>("ProfileId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("SalePrice")
+                        .HasColumnType("float");
 
                     b.Property<int>("TimesWatched")
                         .HasColumnType("int");

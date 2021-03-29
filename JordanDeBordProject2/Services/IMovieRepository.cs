@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Services
 {
+    /// <summary>
+    /// Interface for our Movie Repository which contains CRUD method headers to be implemented
+    /// in our Repository.
+    /// </summary>
     public interface IMovieRepository
     {
         Task<Movie> ReadAsync(int movieId);

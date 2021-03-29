@@ -176,6 +176,12 @@ namespace JordanDeBordProject2.Migrations
                     b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("SalePrice")
+                        .HasColumnType("float");
+
                     b.Property<int>("TimesWatched")
                         .HasColumnType("int");
 

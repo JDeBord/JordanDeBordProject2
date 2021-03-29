@@ -18,6 +18,7 @@ namespace JordanDeBordProject2.Models.ViewModels
         [Display(Name = "Length in Minutes")]
         public int? LengthInMinutes { get; set; }
 
+        [Display(Name ="Price ($)")]
         public double Price { get; set; }
 
         [Display(Name = "IMDB URL")]

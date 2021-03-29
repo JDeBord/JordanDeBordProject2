@@ -15,18 +15,15 @@ namespace JordanDeBordProject2.Controllers
     public class MovieController : Controller
     {
         private readonly IProfileRepository _profileRepository;
-        private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMovieRepository _movieRepository;
 
         public MovieController (IProfileRepository profileRepository,
-            IUserRepository userRepository,
             IMovieRepository movieRepository,
             UserManager<ApplicationUser> userManager)
         {
             _profileRepository = profileRepository;
             _userManager = userManager;
-            _userRepository = userRepository;
             _movieRepository = movieRepository;
         }
 

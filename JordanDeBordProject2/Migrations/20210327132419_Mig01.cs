@@ -242,6 +242,8 @@ namespace JordanDeBordProject2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SalePrice = table.Column<double>(type: "float", nullable: false),
+                    SaleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimesWatched = table.Column<int>(type: "int", nullable: false),
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     ProfileId = table.Column<int>(type: "int", nullable: false)

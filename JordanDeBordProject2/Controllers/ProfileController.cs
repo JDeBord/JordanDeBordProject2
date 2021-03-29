@@ -144,6 +144,7 @@ namespace JordanDeBordProject2.Controllers
             
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var userName = User.Identity.Name;
 
             if (!(await _profileRepository.CheckProfile(userId)))
             {
@@ -154,7 +155,7 @@ namespace JordanDeBordProject2.Controllers
             
             var profile = await _profileRepository.ReadByUserAsync(userId);
 
-            var user = await _userRepository.ReadByIdAsync(userId);
+            var user = await _userRepository.ReadAsync(userName);
 
             var model = new DisplayProfileVM
                 {
@@ -177,13 +178,14 @@ namespace JordanDeBordProject2.Controllers
             }
             // If user doesn't have a profile, redirect to create one.
             var userId = _userManager.GetUserId(User);
+            var userName = User.Identity.Name;
 
             if (!(await _profileRepository.CheckProfile(userId)))
             {
                 return RedirectToAction("Create");
             }
             var profile = await _profileRepository.ReadByUserAsync(userId);
-            var user = await _userRepository.ReadByIdAsync(userId);
+            var user = await _userRepository.ReadAsync(userName);
             var model = new EditProfileVM
             {
                 ProfileId = profile.Id,

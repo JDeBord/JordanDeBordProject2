@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Services
 {
+    /// <summary>
+    /// Initializer is used to seed our database with an account for 
+    /// the admin, movies, genres, and associates the default movies
+    /// with their respective genres. 
+    /// </summary>
     public class Initializer
     {
         private readonly ApplicationDbContext _database;
@@ -15,6 +20,15 @@ namespace JordanDeBordProject2.Services
         private readonly IGenreRepository _genreRepo;
         private readonly IMovieRepository _movieRepo;
 
+        /// <summary>
+        /// Constructor for the initializer class, where we inject our needed
+        /// services (User/Role Managers, DBContext, and Repositories). 
+        /// </summary>
+        /// <param name="database">DBContext used to interact with the Database.</param>
+        /// <param name="userManager">UserManager used to manage users in the Database.</param>
+        /// <param name="roleManager">RoleManager used to manage roles in the Database.</param>
+        /// <param name="genreRepo">Repository used to interact with the database regarding Genres.</param>
+        /// <param name="movieRepo">Repository used to interact with the database regarding Movies.</param>
         public Initializer
             (
                 ApplicationDbContext database,
@@ -31,20 +45,27 @@ namespace JordanDeBordProject2.Services
             _movieRepo = movieRepo;
         }
 
+        /// <summary>
+        /// Verifies the database has been created and then makes sure our two roles
+        /// have been added. It then checks if the admin account exists, and if not creates it.
+        /// </summary>
         public async Task SeedUsersAsync()
         {
             _database.Database.EnsureCreated();
 
+            // If the Admin role doesn't exist, create it.
             if (!_database.Roles.Any(role => role.Name == "Admin"))
             {
                 await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
             }
 
+            // If the Movie Connoisseur role doesn't exist, create it.
             if (!_database.Roles.Any(role => role.Name == "Movie Connoisseur"))
             {
                 await _roleManager.CreateAsync(new IdentityRole { Name = "Movie Connoisseur" });
             }
 
+            // If the Admin account doesn't exist, create it.
             if (!_database.Users.Any(user => user.UserName == "admin@test.com"))
             {
                 var user = new ApplicationUser
@@ -59,6 +80,10 @@ namespace JordanDeBordProject2.Services
             }
         }
 
+        /// <summary>
+        /// Verifies that our default genre's exist in the database. If any of them
+        /// do not exist we create them.
+        /// </summary>
         public async Task SeedGenresAsync()
         {
             if (!_database.Genres.Any(genre => genre.Name == "Action")) 
@@ -112,6 +137,11 @@ namespace JordanDeBordProject2.Services
             };
         }
 
+        /// <summary>
+        /// Verifies our ten default movies exist in the database. If any do not,
+        /// we create them. 
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedMoviesAsync()
         {
             if (!_database.Movies.Any(movie => movie.Title == "The Lord of the Rings: The Fellowship of the Ring"))
@@ -234,7 +264,11 @@ namespace JordanDeBordProject2.Services
                 });
             }
         }
-
+        /// <summary>
+        /// Verifies that each of our ten default movies have their correct genres added.
+        /// If any do not, we add those genres. 
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedMovieGenresAsync() 
         {
             Movie movie = null;

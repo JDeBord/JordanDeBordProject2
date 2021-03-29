@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Services
 {
+    /// <summary>
+    /// Interface for our Profile repository, which contains CRUD method headers
+    /// to be implemented in the Repository. 
+    /// </summary>
     public interface IProfileRepository
     {
         Task<Profile> ReadAsync(int profileId);

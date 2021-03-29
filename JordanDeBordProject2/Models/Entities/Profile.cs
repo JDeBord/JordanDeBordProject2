@@ -49,7 +49,7 @@ namespace JordanDeBordProject2.Models.Entities
                 var sum = 0.0;
                 foreach (var movie in PaidMovies)
                 {
-                    sum += movie.Movie.Price;
+                    sum += movie.SalePrice;
                 }
                 return sum;
             } 

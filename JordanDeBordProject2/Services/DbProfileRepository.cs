@@ -29,6 +29,17 @@ namespace JordanDeBordProject2.Services
             movie.PaidMovies.Add(paidMovie);
 
             await _database.SaveChangesAsync();
+
+            var newPaidMovie = await _database.PaidMovies
+                                    .Where(m => m.MovieId == movie.Id)
+                                    .Where(p => p.ProfileId == profileId)
+                                    .FirstOrDefaultAsync();
+            if (newPaidMovie != null)
+            {
+                newPaidMovie.SalePrice = movie.Price;
+
+                await _database.SaveChangesAsync();
+            }
         }
 
         

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Services
 {
+    /// <summary>
+    /// Interface for our Genre Repository with method headers for CRUD operations
+    /// which are to be implemented in our repository. 
+    /// </summary>
     public interface IGenreRepository
     {
         Task<Genre> ReadAsync(int genreId);

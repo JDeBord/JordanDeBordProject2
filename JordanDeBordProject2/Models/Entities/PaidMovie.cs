@@ -10,6 +10,12 @@ namespace JordanDeBordProject2.Models.Entities
     {
         public int Id { get; set; }
 
+        
+        public double SalePrice { get; set; }
+
+        [DataType(DataType.Date), Required]
+        public DateTime SaleDate { get; set; } = DateTime.Now.Date;
+
         [Required]
         public int TimesWatched { get; set; }
 
