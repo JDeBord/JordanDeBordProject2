@@ -1,0 +1,36 @@
+﻿@model IEnumerable<JordanDeBordProject2.Models.ViewModels.GenreVM>
+
+@{ 
+    var genreCount = ViewData["GenreCount"];
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Index" asp-controller="Home">Watched Movies</a> |
+    <a asp-action="Index" asp-controller="Movie">All Movies</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GenreName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenreName)
+            </td>
+            <td>
+                <a asp-action="BrowseByGenre" asp-controller="Movie" asp-route-id="@item.Id">Browse Movies</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    Total Number of Genres: @genreCount
+</div>

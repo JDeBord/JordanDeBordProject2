@@ -22,6 +22,7 @@ namespace JordanDeBordProject2.Controllers
         private readonly IProfileRepository _profileRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMovieRepository _movieRepository;
+        private readonly IGenreRepository _genreRepository;
 
         /// <summary>
         /// Constructor for Movie Controller, where we inject our needed repositories and services.
@@ -29,13 +30,16 @@ namespace JordanDeBordProject2.Controllers
         /// <param name="profileRepository">Profile repository used to access database for profile CRUD operations.</param>
         /// <param name="movieRepository">Movie repository used to access database for movie CRUD operations.</param>
         /// <param name="userManager">UserManager to provide needed user interactions with Database.</param>
+        /// <param name="genreRepository">Genre repository used to access database for genre CRUD operations.</param>
         public MovieController (IProfileRepository profileRepository,
             IMovieRepository movieRepository,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IGenreRepository genreRepository)
         {
             _profileRepository = profileRepository;
             _userManager = userManager;
             _movieRepository = movieRepository;
+            _genreRepository = genreRepository;
         }
 
         /// <summary>
@@ -272,6 +276,93 @@ namespace JordanDeBordProject2.Controllers
             };
             
             ViewData["Title"] = $"Watching {movie.Title}";
+            return View(model);
+        }
+
+        /// <summary>
+        /// BrowseByGenre action method, which returns a list of the movies with that genre
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> BrowseByGenre(int id) 
+        {
+            // Redirect admins to admin Index.
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            // If user doesn't have a profile, redirect to create one.
+            var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Profile");
+            }
+
+        
+            var boughtMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
+
+            // If Genre doesn't exist, redirect to Browse.
+            var genre = await _genreRepository.ReadAsync(id);
+
+            if (genre == null)
+            {
+                return RedirectToAction("Browse");
+            }
+            var movieGenres = await _movieRepository.ReadAllMovieGenreAsync(id);
+
+            var model = movieGenres.Select(m =>
+                 new DisplayMovieIndexVM
+                 {
+                     Id = m.MovieId,
+                     Title = m.Movie.Title,
+                     WatchStatus = "Not Watched"
+                 }).ToList();
+            
+            // For each film the user owns, see if it matches one from our search. If so set it to Watched if it has been.
+            foreach (var bm in boughtMovies)
+            {
+                if (bm.TimesWatched > 0)
+                {
+                    var matchedMovie = model.FirstOrDefault(movie => movie.Id == bm.MovieId);
+
+                    if (matchedMovie != null)
+                    {
+                        matchedMovie.WatchStatus = "Watched";
+                    }
+                }
+            }
+            
+
+            // Count of all movies.
+            ViewData["TotalMovies"] = movieGenres.Count;
+
+            ViewData["Title"] = $"All {genre.Name} Movies";
+
+            return View(model);
+
+        }
+
+        /// <summary>
+        /// Browse action method which returns a view with a list of all Genres that the user can then browse by.
+        /// </summary>
+        /// <returns>A view containing options for user to choose genre to browse by.</returns>
+        public async Task<IActionResult> Browse()
+        {
+            var genres = await _genreRepository.ReadAllAsync();
+
+            var model = genres.Select(g =>
+                new GenreVM
+                {
+                    Id = g.Id,
+                    GenreName = g.Name
+                });
+
+            ViewData["Title"] = "Browsing All Genres";
+            ViewData["GenreCount"] = genres.Count;
+
             return View(model);
         }
     }

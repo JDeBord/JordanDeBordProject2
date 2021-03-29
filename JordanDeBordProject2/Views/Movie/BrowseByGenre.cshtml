@@ -1,16 +1,15 @@
 ﻿@model IEnumerable<JordanDeBordProject2.Models.ViewModels.DisplayMovieIndexVM>
 
-@{
+@{ 
     var totalMovies = ViewData["TotalMovies"];
 }
-
 <h1>@ViewData["Title"]</h1>
 
-<div>
+<p>
     <a asp-action="Index" asp-controller="Home">Watched Movies</a> | 
-    <a asp-action="Browse" asp-controller="Movie">Browse By Genre</a>
-
-</div>
+    <a asp-action="Index" asp-controller="Movie">All Movies</a> | 
+    <a asp-action="Browse" asp-controller="Movie">Back To All Genres</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -40,6 +39,6 @@
 </table>
 <div>
     <p>
-        Total Movies: @totalMovies
+        Movies: @totalMovies
     </p>
 </div>

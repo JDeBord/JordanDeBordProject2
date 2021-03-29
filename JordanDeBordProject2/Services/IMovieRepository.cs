@@ -27,5 +27,7 @@ namespace JordanDeBordProject2.Services
         Task AddGenreAsync(int movieId, Genre genre);
 
         Task RemoveGenreAsync(int movieId, Genre genre);
+
+        Task<ICollection<MovieGenre>> ReadAllMovieGenreAsync(int genreId);
     }
 }

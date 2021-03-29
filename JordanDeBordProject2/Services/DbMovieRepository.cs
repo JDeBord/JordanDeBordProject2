@@ -160,5 +160,18 @@ namespace JordanDeBordProject2.Services
 
             await _database.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Returns a list of all MovieGenres for the included genreId and the movies.
+        /// </summary>
+        /// <param name="genreId">Id of genre to return movies for.</param>
+        /// <returns>A collection of MovieGenres with that genre.</returns>
+        public async Task<ICollection<MovieGenre>> ReadAllMovieGenreAsync(int genreId)
+        {
+            var movies = await _database.MovieGenres.Where(g => g.GenreId == genreId).Include(m => m.Movie).ToListAsync();
+
+            return movies;
+
+        }
     }
 }
