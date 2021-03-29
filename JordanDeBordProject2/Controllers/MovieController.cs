@@ -138,7 +138,6 @@ namespace JordanDeBordProject2.Controllers
             }
 
             // Check if paid for, if not redirect to pay/id
-            var profile = await _profileRepository.ReadByUserAsync(userId);
             var paidMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
             var paidFor = false;
             foreach (var mov in paidMovies)
@@ -207,7 +206,6 @@ namespace JordanDeBordProject2.Controllers
             }
 
             // Check if paid for, if not redirect to pay/id
-            var profile = await _profileRepository.ReadByUserAsync(userId);
             var paidMovies = await _profileRepository.GetPaidMoviesAsync(profile.Id);
             var paidFor = false;
             foreach (var mov in paidMovies)
