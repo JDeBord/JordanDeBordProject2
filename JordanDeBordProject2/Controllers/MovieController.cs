@@ -130,7 +130,8 @@ namespace JordanDeBordProject2.Controllers
                 Title = movie.Title,
                 Year = movie.Year,
                 LengthInMin = movie.LengthInMinutes,
-                Price = movie.Price
+                Price = movie.Price,
+                Genres = movie.GetGenres()
             };
 
             ViewData["Title"] = "Movie Details";

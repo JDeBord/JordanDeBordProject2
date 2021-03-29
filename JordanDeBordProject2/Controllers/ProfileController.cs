@@ -187,6 +187,7 @@ namespace JordanDeBordProject2.Controllers
             var userId = _userManager.GetUserId(User);
             var profile = await _profileRepository.ReadByUserAsync(userId);
             var userName = User.Identity.Name;
+            
 
             if (profile == null)
             {
@@ -196,15 +197,15 @@ namespace JordanDeBordProject2.Controllers
             ViewData["Title"] = "Viewing Your Profile";
 
             var user = await _userRepository.ReadAsync(userName);
-
+            
             var model = new DisplayProfileVM
                 {
                     Name = $"{user.LastName}, {user.FirstName}",
                     CCNum = $"********{profile.CCNum[8..]}",
                     CCExp = profile.CCExp,
                     Address = profile.GetFormattedAddress(),
-                    AmountSpent = profile.TotalAmountSpent.ToString("c")
-                };
+                    AmountSpent = profile.TotalAmountSpent.ToString("C")
+        };
 
             return View(model);
         }

@@ -124,13 +124,13 @@ namespace JordanDeBordProject2.Services
         }
 
         /// <summary>
-        /// Method to return the Profile with the associated ApplicationUserId
+        /// Method to return the Profile with the associated ApplicationUserId, also include the paid movies.
         /// </summary>
         /// <param name="applicationUserId">ApplicationUserId of the Profile to return.</param>
         /// <returns>Profile with that ApplicationUserId.</returns>
         public async Task<Profile> ReadByUserAsync(string applicationUserId) 
         {
-            var profile = await _database.Profiles.FirstOrDefaultAsync(p => p.ApplicationUserId == applicationUserId);
+            var profile = await _database.Profiles.Include(pm=> pm.PaidMovies).FirstOrDefaultAsync(p => p.ApplicationUserId == applicationUserId);
 
             return profile;
         }

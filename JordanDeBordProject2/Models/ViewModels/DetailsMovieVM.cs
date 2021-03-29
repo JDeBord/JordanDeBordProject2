@@ -18,5 +18,7 @@ namespace JordanDeBordProject2.Models.ViewModels
         public int? LengthInMin { get; set; }
 
         public double Price { get; set; }
+
+        public string Genres { get; set; }
     }
 }
