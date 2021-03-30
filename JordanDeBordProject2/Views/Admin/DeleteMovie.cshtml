@@ -1,9 +1,8 @@
 ﻿@model JordanDeBordProject2.Models.ViewModels.DeleteMovieVM
 
-
-<h1>@ViewData["Title"]</h1>
-
 <h3>Are you sure you want to delete this movie?</h3>
+<br />
+<h5>If so, choose 'Yes, Delete!' below.</h5>
 <div>
     <hr />
     <dl class="row">
@@ -22,7 +21,7 @@
     </dl>
     
     <form asp-action="DeleteMovie">
-        <input type="submit" value="Yes, Delete" class="btn btn-danger" />
+        <input type="submit" value="Yes, Delete!" class="btn btn-danger" />
     </form>
 </div>
 <div>
