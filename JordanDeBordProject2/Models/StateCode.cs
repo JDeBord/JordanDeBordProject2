@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace JordanDeBordProject2.Models
 {
+    /// <summary>
+    /// Enumeration containing all valid US State (and territory) codes
+    /// to validate user input against.
+    /// </summary>
     public enum StateCode
     {
         AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA,
