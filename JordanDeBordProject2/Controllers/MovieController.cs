@@ -352,6 +352,21 @@ namespace JordanDeBordProject2.Controllers
         /// <returns>A view containing options for user to choose genre to browse by.</returns>
         public async Task<IActionResult> Browse()
         {
+            // Redirect admins to admin Index.
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            // If user doesn't have a profile, redirect to create one.
+            var userId = _userManager.GetUserId(User);
+            var profile = await _profileRepository.ReadByUserAsync(userId);
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Profile");
+            }
+
             var genres = await _genreRepository.ReadAllAsync();
 
             var model = genres.Select(g =>
