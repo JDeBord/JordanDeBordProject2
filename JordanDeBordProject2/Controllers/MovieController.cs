@@ -312,9 +312,9 @@ namespace JordanDeBordProject2.Controllers
             {
                 return RedirectToAction("Browse");
             }
-            var movieGenres = await _movieRepository.ReadAllMovieGenreAsync(id);
+            var moviesWithGenre = await _movieRepository.ReadAllMovieGenreAsync(id);
 
-            var model = movieGenres.Select(m =>
+            var model = moviesWithGenre.Select(m =>
                  new DisplayMovieIndexVM
                  {
                      Id = m.MovieId,
@@ -338,7 +338,7 @@ namespace JordanDeBordProject2.Controllers
             
 
             // Count of all movies.
-            ViewData["TotalMovies"] = movieGenres.Count;
+            ViewData["TotalMovies"] = moviesWithGenre.Count;
 
             ViewData["Title"] = $"All {genre.Name} Movies";
 
